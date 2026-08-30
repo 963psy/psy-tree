@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>درخت روان - کارگاه تعاملی خودشناسی و درمان</title>
     <style>
         :root {
@@ -19,6 +19,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -26,34 +27,35 @@
             color: var(--text-light);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            padding: 12px;
+            padding: 10px;
             overflow-x: hidden;
         }
 
-        /* نوار بالای صفحه: وضعیت پیشرفت */
+        /* نوار وضعیت پیشرفت */
         #top-bar {
-            width: 84vh;
-            max-width: 95vw;
+            width: 100%;
+            max-width: 800px;
             background: rgba(13, 20, 30, 0.85);
             border: 1px solid rgba(255, 215, 0, 0.3);
             border-radius: 12px;
-            padding: 10px 16px;
+            padding: 8px 14px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 10;
         }
 
         .progress-container {
             flex-grow: 1;
-            margin: 0 15px;
+            margin: 0 10px;
             background: rgba(255,255,255,0.1);
-            height: 14px;
-            border-radius: 7px;
+            height: 12px;
+            border-radius: 6px;
             overflow: hidden;
             border: 1px solid rgba(255, 215, 0, 0.2);
         }
@@ -66,53 +68,77 @@
             box-shadow: 0 0 10px var(--green-glow);
         }
 
+        .top-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
         .btn-report {
             background: rgba(16, 185, 129, 0.2);
             border: 1px solid var(--green-glow);
             color: #fff;
-            padding: 6px 14px;
-            border-radius: 8px;
+            padding: 5px 10px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: bold;
             transition: all 0.2s;
             display: none;
+            white-space: nowrap;
         }
         .btn-report:hover {
             background: var(--green-glow);
             color: #0b1118;
         }
 
+        .btn-reset {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 5px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        .btn-reset:hover {
+            background: rgba(239, 68, 68, 0.4);
+            color: #fff;
+        }
+
         /* ظرف نگهدارنده تصویر درخت */
         #stage {
             position: relative;
-            width: 84vh;
-            height: 84vh;
-            max-width: 95vw;
-            max-height: 84vh;
-            border-radius: 16px;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.95), 0 0 20px rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 35px rgba(0, 0, 0, 0.95), 0 0 15px rgba(255, 215, 0, 0.15);
             border: 2px solid rgba(255, 215, 0, 0.3);
             background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #stage img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
             display: block;
+            object-fit: contain;
+            user-select: none;
+            pointer-events: none;
         }
 
         /* نقاط تعاملی */
         .spot {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: radial-gradient(circle, #fff 10%, var(--gold) 45%, rgba(255, 140, 0, 0.6) 80%, transparent 100%);
             border: 2px solid #ffffff;
-            box-shadow: 0 0 20px var(--gold);
+            box-shadow: 0 0 15px var(--gold);
             cursor: pointer;
             transform: translate(-50%, -50%);
             animation: pulse-glow 2s infinite alternate ease-in-out;
@@ -122,12 +148,12 @@
 
         .spot.completed {
             background: radial-gradient(circle, #fff 10%, var(--green-glow) 50%, rgba(5, 150, 105, 0.8) 85%, transparent 100%);
-            box-shadow: 0 0 25px var(--green-glow);
+            box-shadow: 0 0 20px var(--green-glow);
             border-color: #a7f3d0;
         }
 
-        .spot:hover {
-            transform: translate(-50%, -50%) scale(1.3);
+        .spot:hover, .spot:active {
+            transform: translate(-50%, -50%) scale(1.25);
         }
 
         @keyframes pulse-glow {
@@ -143,9 +169,9 @@
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.9);
             color: var(--gold);
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
@@ -153,7 +179,9 @@
             border: 1px solid rgba(255, 215, 0, 0.4);
         }
 
-        .spot:hover::after { opacity: 1; }
+        @media (hover: hover) {
+            .spot:hover::after { opacity: 1; }
+        }
 
         /* مختصات نقاط روی درخت */
         #spot-schema { top: 82%; left: 32%; }
@@ -166,21 +194,23 @@
         #card {
             display: none;
             position: absolute;
-            bottom: 2%;
-            left: 2%;
-            right: 2%;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            max-height: 88%;
+            overflow-y: auto;
             background: var(--card-bg);
             border: 2px solid rgba(255, 215, 0, 0.6);
-            border-radius: 14px;
-            padding: 16px 18px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 14px 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 20;
-            animation: slideUp 0.3s ease-out;
+            animation: slideUp 0.25s ease-out;
         }
 
         @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
+            from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
@@ -188,14 +218,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-            padding-bottom: 6px;
+            padding-bottom: 5px;
         }
 
         .card-title {
             color: var(--gold);
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: bold;
         }
 
@@ -203,26 +233,30 @@
             background: none;
             border: none;
             color: #bbb;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
         }
         .close-btn:hover { color: #fff; }
 
         .tabs {
             display: flex;
-            gap: 6px;
-            margin-bottom: 10px;
+            gap: 5px;
+            margin-bottom: 8px;
         }
 
         .tab-btn {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ccc;
-            padding: 6px 14px;
-            border-radius: 8px;
+            padding: 5px 10px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             transition: all 0.2s;
+            flex: 1;
+            text-align: center;
         }
 
         .tab-btn.active {
@@ -233,18 +267,18 @@
         }
 
         .card-body {
-            font-size: 0.9rem;
-            line-height: 1.7;
+            font-size: 0.85rem;
+            line-height: 1.6;
             color: #e2e8f0;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 10px 14px;
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.45);
+            padding: 8px 12px;
+            border-radius: 6px;
             border-left: 3px solid var(--gold);
         }
 
         /* کادر ورودی تمرین مراجع */
         #exercise-input-box {
-            margin-top: 10px;
+            margin-top: 8px;
             display: none;
         }
 
@@ -256,7 +290,7 @@
             border-radius: 6px;
             color: #fff;
             padding: 8px;
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             resize: none;
             outline: none;
         }
@@ -266,14 +300,14 @@
         }
 
         .btn-action {
-            margin-top: 10px;
+            margin-top: 8px;
             width: 100%;
             background: linear-gradient(90deg, #ffd700, #10b981);
             border: none;
-            padding: 9px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 6px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #0b1118;
             cursor: pointer;
             transition: opacity 0.2s;
@@ -289,38 +323,65 @@
             z-index: 100;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 16px;
         }
         .report-content {
             background: #fff;
             color: #1e293b;
-            width: 650px;
+            width: 600px;
             max-width: 100%;
             max-height: 90vh;
             border-radius: 12px;
-            padding: 24px;
+            padding: 20px;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .report-content h2 {
             border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
             color: #0f172a;
+            font-size: 1.1rem;
         }
         .report-item {
-            margin-bottom: 14px;
-            padding: 10px;
+            margin-bottom: 12px;
+            padding: 8px 10px;
             background: #f8fafc;
-            border-radius: 8px;
+            border-radius: 6px;
             border-right: 4px solid #10b981;
+            font-size: 0.85rem;
         }
-        .report-item h4 { color: #0f766e; margin-bottom: 4px; }
+        .report-item h4 { color: #0f766e; margin-bottom: 4px; font-size: 0.9rem; }
         .report-actions {
-            margin-top: 20px;
+            margin-top: 16px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: flex-end;
+        }
+
+        /* بهینه‌سازی چاپ کارنامه */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #report-modal, #printable-report, #printable-report * {
+                visibility: visible;
+            }
+            #report-modal {
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%;
+                background: #fff;
+                padding: 0;
+            }
+            .report-content {
+                box-shadow: none;
+                width: 100%;
+                padding: 0;
+            }
+            .report-actions {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -328,25 +389,28 @@
 
 <!-- نوار وضعیت پیشرفت -->
 <div id="top-bar">
-    <span style="font-size: 0.85rem; color: var(--gold); font-weight: bold;">🌱 تکامل درخت روان:</span>
+    <span style="font-size: 0.8rem; color: var(--gold); font-weight: bold;">🌱 رشد درخت:</span>
     <div class="progress-container">
         <div id="progress-fill"></div>
     </div>
-    <span id="progress-text" style="font-size: 0.82rem; font-weight: bold; margin-left: 10px;">0%</span>
-    <button id="btn-show-report" class="btn-report" onclick="showReport()">📄 دانلود کارنامه</button>
+    <span id="progress-text" style="font-size: 0.78rem; font-weight: bold; margin-left: 6px;">0%</span>
+    <div class="top-buttons">
+        <button id="btn-show-report" class="btn-report" onclick="showReport()">📄 کارنامه</button>
+        <button class="btn-reset" onclick="resetAllData()" title="پاک کردن پاسخ‌ها">🔄</button>
+    </div>
 </div>
 
 <!-- صحنه تصویر درخت -->
-<div id="stage">
+<div id="stage" onclick="handleStageClick(event)">
     <img src="tree.png" alt="درخت روان">
 
-    <div class="spot" id="spot-schema" data-label="ریشه‌ها: طرح‌واره‌ها" onclick="openNode('schema')"></div>
-    <div class="spot" id="spot-psycho" data-label="ناخودآگاه: روان‌پویشی" onclick="openNode('psycho')"></div>
-    <div class="spot" id="spot-child"  data-label="قلب درخت: کودک درون"  onclick="openNode('child')"></div>
-    <div class="spot" id="spot-cbt"    data-label="تنه و شاخه: CBT"      onclick="openNode('cbt')"></div>
-    <div class="spot" id="spot-act"    data-label="میوه‌ها: ارزش‌های ACT" onclick="openNode('act')"></div>
+    <div class="spot" id="spot-schema" data-label="ریشه‌ها: طرح‌واره‌ها" onclick="openNode('schema', event)"></div>
+    <div class="spot" id="spot-psycho" data-label="ناخودآگاه: روان‌پویشی" onclick="openNode('psycho', event)"></div>
+    <div class="spot" id="spot-child"  data-label="قلب درخت: کودک درون"  onclick="openNode('child', event)"></div>
+    <div class="spot" id="spot-cbt"    data-label="تنه و شاخه: CBT"      onclick="openNode('cbt', event)"></div>
+    <div class="spot" id="spot-act"    data-label="میوه‌ها: ارزش‌های ACT" onclick="openNode('act', event)"></div>
 
-    <div id="card">
+    <div id="card" onclick="event.stopPropagation()">
         <div class="card-header">
             <span id="card-title" class="card-title">عنوان</span>
             <button class="close-btn" onclick="closeCard()">&times;</button>
@@ -354,16 +418,16 @@
         <div class="tabs">
             <button class="tab-btn" id="tab-concept" onclick="changeTab('concept')">💡 مفهوم</button>
             <button class="tab-btn" id="tab-scenario" onclick="changeTab('scenario')">👤 سناریو</button>
-            <button class="tab-btn" id="tab-exercise" onclick="changeTab('exercise')">✍️ تمرین بالینی</button>
+            <button class="tab-btn" id="tab-exercise" onclick="changeTab('exercise')">✍️ تمرین</button>
         </div>
         <div id="card-body" class="card-body">محتوا...</div>
         
         <!-- فیلد یادداشت مراجع -->
         <div id="exercise-input-box">
-            <textarea id="client-response" placeholder="پاسخ یا تحلیل خود را برای این مرحله یادداشت کنید..."></textarea>
+            <textarea id="client-response" placeholder="پاسخ یا تحلیل خود را بنویسید..."></textarea>
         </div>
 
-        <button class="btn-action" onclick="finishNode()">✨ ثبت آگاهی و رشد این بخش</button>
+        <button class="btn-action" onclick="finishNode()">✨ ثبت آگاهی این بخش</button>
     </div>
 </div>
 
@@ -373,8 +437,8 @@
         <h2>📜 کارنامه رشد و خودآگاهی «درخت روان»</h2>
         <div id="report-body"></div>
         <div class="report-actions">
-            <button style="padding: 8px 16px; border-radius:6px; cursor:pointer;" onclick="closeReport()">بستن</button>
-            <button style="padding: 8px 16px; border-radius:6px; background:#10b981; color:#fff; border:none; cursor:pointer;" onclick="window.print()">🖨️ پرینت / ذخیره PDF</button>
+            <button style="padding: 6px 14px; border-radius:6px; cursor:pointer;" onclick="closeReport()">بستن</button>
+            <button style="padding: 6px 14px; border-radius:6px; background:#10b981; color:#fff; border:none; cursor:pointer;" onclick="window.print()">🖨️ پرینت / PDF</button>
         </div>
     </div>
 </div>
@@ -417,20 +481,42 @@
     let completedNodes = new Set();
     let selectedKey = null;
 
-    function openNode(key) {
+    try {
+        clientAnswers = JSON.parse(localStorage.getItem('psy_tree_answers')) || {};
+        completedNodes = new Set(JSON.parse(localStorage.getItem('psy_tree_completed')) || []);
+    } catch(e) {
+        clientAnswers = {};
+        completedNodes = new Set();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        completedNodes.forEach(key => {
+            const el = document.getElementById(`spot-${key}`);
+            if (el) el.classList.add('completed');
+        });
+        updateProgress();
+    });
+
+    function openNode(key, event) {
+        if (event) event.stopPropagation();
         selectedKey = key;
         const node = clinicalData[key];
         document.getElementById('card-title').innerText = node.title;
         document.getElementById('card').style.display = 'block';
         
-        // بازیابی متن پاسخ قبلی در صورت وجود
         document.getElementById('client-response').value = clientAnswers[key] || '';
-        
         changeTab('concept');
     }
 
     function closeCard() {
         document.getElementById('card').style.display = 'none';
+        selectedKey = null;
+    }
+
+    function handleStageClick(event) {
+        if (document.getElementById('card').style.display === 'block') {
+            closeCard();
+        }
     }
 
     function changeTab(tabName) {
@@ -442,20 +528,32 @@
             document.getElementById('card-body').innerText = clinicalData[selectedKey][tabName];
         }
 
-        // نمایش کادر نوشتن پاسخ فقط در تب تمرین
         const inputBox = document.getElementById('exercise-input-box');
         inputBox.style.display = (tabName === 'exercise') ? 'block' : 'none';
     }
 
     function finishNode() {
         const text = document.getElementById('client-response').value.trim();
+        
+        // ثبت یا بروزرسانی پاسخ
         if (text) {
             clientAnswers[selectedKey] = text;
+        } else {
+            delete clientAnswers[selectedKey];
         }
 
         completedNodes.add(selectedKey);
-        document.getElementById(`spot-${selectedKey}`).classList.add('completed');
+        const spotEl = document.getElementById(`spot-${selectedKey}`);
+        if (spotEl) spotEl.classList.add('completed');
         
+        // ذخیره‌سازی پایدار
+        try {
+            localStorage.setItem('psy_tree_answers', JSON.stringify(clientAnswers));
+            localStorage.setItem('psy_tree_completed', JSON.stringify(Array.from(completedNodes)));
+        } catch(e) {
+            console.error("Storage save failed", e);
+        }
+
         updateProgress();
         closeCard();
     }
@@ -468,8 +566,11 @@
         document.getElementById('progress-fill').style.width = percent + '%';
         document.getElementById('progress-text').innerText = percent + '%';
 
+        const reportBtn = document.getElementById('btn-show-report');
         if (count >= 1) {
-            document.getElementById('btn-show-report').style.display = 'block';
+            reportBtn.style.display = 'block';
+        } else {
+            reportBtn.style.display = 'none';
         }
     }
 
@@ -486,7 +587,7 @@
             box.innerHTML = `
                 <h4>${item.title}</h4>
                 <p><strong>تمرین بالینی:</strong> ${item.exercise}</p>
-                <p style="margin-top:6px; color:#0f172a;"><strong>پاسخ مراجع:</strong> ${answer}</p>
+                <p style="margin-top:4px; color:#0f172a;"><strong>پاسخ مراجع:</strong> ${answer}</p>
             `;
             container.appendChild(box);
         }
@@ -496,6 +597,23 @@
 
     function closeReport() {
         document.getElementById('report-modal').style.display = 'none';
+    }
+
+    function resetAllData() {
+        if (confirm("آیا مطمئن هستید که می‌خواهید تمام پاسخ‌ها و پیشرفت را پاک کنید؟")) {
+            try {
+                localStorage.removeItem('psy_tree_answers');
+                localStorage.removeItem('psy_tree_completed');
+            } catch(e){}
+            
+            clientAnswers = {};
+            completedNodes.clear();
+
+            document.querySelectorAll('.spot').forEach(s => s.classList.remove('completed'));
+            updateProgress();
+            closeCard();
+            closeReport();
+        }
     }
 </script>
 
