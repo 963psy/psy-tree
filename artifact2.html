@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>درخت روان | Psychology Tree</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- نوار وضعیت پیشرفت -->
+    <div id="top-bar">
+        <div class="progress-container">
+            <div id="progress-fill"></div>
+        </div>
+        <span id="progress-text" style="font-size: 0.8rem; margin-right: 8px; color: var(--gold);">0%</span>
+        <button id="btn-show-report" class="btn-report" onclick="showReport()">گزارش نهایی</button>
+    </div>
+
+    <!-- صحنه اصلی نمایش درخت -->
+    <div id="stage">
+        <!-- تصویر مرجع شما به عنوان پس‌زمینه -->
+        <img src="SrKPUhJE1kXL2W0deI0ngXogR-U-84D94oaMTiuXrOJBpTIFMw.png" alt="Psychology Tree">
+        
+        <!-- نقاط تعاملی (Spots) -->
+        <div id="spot-schema" class="spot" onclick="openNode('schema')" data-label="طرح‌واره"></div>
+        <div id="spot-psycho" class="spot" onclick="openNode('psycho')" data-label="روان‌پویشی"></div>
+        <div id="spot-child"  class="spot" onclick="openNode('child')"  data-label="کودک درون"></div>
+        <div id="spot-cbt"    class="spot" onclick="openNode('cbt')"    data-label="شناختی-رفتاری"></div>
+        <div id="spot-act"    class="spot" onclick="openNode('act')"    data-label="تعهد و پذیرش"></div>
+    </div>
+
+    <!-- کارت پاپ‌آپ محتوا -->
+    <div id="card">
+        <div class="card-header">
+            <h3 id="card-title" class="card-title">عنوان</h3>
+            <button class="close-btn" onclick="closeCard()">&times;</button>
+        </div>
+
+        <div class="tabs">
+            <button id="tab-concept" class="tab-btn active" onclick="changeTab('concept')">مفهوم</button>
+            <button id="tab-scenario" class="tab-btn" onclick="changeTab('scenario')">سناریو</button>
+            <button id="tab-exercise" class="tab-btn" onclick="changeTab('exercise')">تمرین</button>
+        </div>
+
+        <div id="card-body" class="card-body">
+            محتوا در حال بارگذاری است...
+        </div>
+
+        <!-- بخش ورودی پاسخ مراجع (فقط در تب تمرین نمایش داده می‌شود) -->
+        <div id="exercise-input-box">
+            <textarea id="client-response" placeholder="پاسخ خود را اینجا بنویسید..."></textarea>
+            <button class="btn-action" onclick="finishNode()">ثبت و ادامه</button>
+        </div>
+    </div>
+
+    <!-- مودال گزارش نهایی -->
+    <div id="report-modal">
+        <div class="report-content">
+            <h2>گزارش مسیر درمانی</h2>
+            <div id="report-body">
+                <!-- آیتم‌های گزارش توسط JS ساخته می‌شوند -->
+            </div>
+            <div class="report-actions">
+                <button class="btn-action" style="width: auto; padding: 8px 20px;" onclick="closeReport()">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- فراخوانی فایل‌ها به ترتیب صحیح -->
+    <script src="clinical_data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
