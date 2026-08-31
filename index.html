@@ -34,7 +34,7 @@
             overflow-x: hidden;
         }
 
-        /* نوار وضعیت پیشرفت */
+        /* نوار بالای صفحه: وضعیت پیشرفت */
         #top-bar {
             width: 100%;
             max-width: 800px;
@@ -68,11 +68,6 @@
             box-shadow: 0 0 10px var(--green-glow);
         }
 
-        .top-buttons {
-            display: flex;
-            gap: 6px;
-        }
-
         .btn-report {
             background: rgba(16, 185, 129, 0.2);
             border: 1px solid var(--green-glow);
@@ -91,22 +86,7 @@
             color: #0b1118;
         }
 
-        .btn-reset {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #fca5a5;
-            padding: 5px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            transition: all 0.2s;
-        }
-        .btn-reset:hover {
-            background: rgba(239, 68, 68, 0.4);
-            color: #fff;
-        }
-
-        /* ظرف نگهدارنده تصویر درخت */
+        /* ظرف نگهدارنده تصویر درخت - ریسپانسیو و متناسب با ابعاد اصلی تصویر */
         #stage {
             position: relative;
             width: 100%;
@@ -284,7 +264,7 @@
 
         #client-response {
             width: 100%;
-            height: 65px;
+            height: 60px;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 215, 0, 0.4);
             border-radius: 6px;
@@ -358,59 +338,31 @@
             gap: 8px;
             justify-content: flex-end;
         }
-
-        /* بهینه‌سازی چاپ کارنامه */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #report-modal, #printable-report, #printable-report * {
-                visibility: visible;
-            }
-            #report-modal {
-                position: absolute;
-                top: 0; left: 0;
-                width: 100%;
-                background: #fff;
-                padding: 0;
-            }
-            .report-content {
-                box-shadow: none;
-                width: 100%;
-                padding: 0;
-            }
-            .report-actions {
-                display: none !important;
-            }
-        }
     </style>
 </head>
 <body>
 
 <!-- نوار وضعیت پیشرفت -->
 <div id="top-bar">
-    <span style="font-size: 0.8rem; color: var(--gold); font-weight: bold;">🌱 رشد درخت:</span>
+    <span style="font-size: 0.8rem; color: var(--gold); font-weight: bold;">🌱 رشد درخت روان:</span>
     <div class="progress-container">
         <div id="progress-fill"></div>
     </div>
     <span id="progress-text" style="font-size: 0.78rem; font-weight: bold; margin-left: 6px;">0%</span>
-    <div class="top-buttons">
-        <button id="btn-show-report" class="btn-report" onclick="showReport()">📄 کارنامه</button>
-        <button class="btn-reset" onclick="resetAllData()" title="پاک کردن پاسخ‌ها">🔄</button>
-    </div>
+    <button id="btn-show-report" class="btn-report" onclick="showReport()">📄 کارنامه</button>
 </div>
 
 <!-- صحنه تصویر درخت -->
-<div id="stage" onclick="handleStageClick(event)">
+<div id="stage">
     <img src="tree.png" alt="درخت روان">
 
-    <div class="spot" id="spot-schema" data-label="ریشه‌ها: طرح‌واره‌ها" onclick="openNode('schema', event)"></div>
-    <div class="spot" id="spot-psycho" data-label="ناخودآگاه: روان‌پویشی" onclick="openNode('psycho', event)"></div>
-    <div class="spot" id="spot-child"  data-label="قلب درخت: کودک درون"  onclick="openNode('child', event)"></div>
-    <div class="spot" id="spot-cbt"    data-label="تنه و شاخه: CBT"      onclick="openNode('cbt', event)"></div>
-    <div class="spot" id="spot-act"    data-label="میوه‌ها: ارزش‌های ACT" onclick="openNode('act', event)"></div>
+    <div class="spot" id="spot-schema" data-label="ریشه‌ها: طرح‌واره‌ها" onclick="openNode('schema')"></div>
+    <div class="spot" id="spot-psycho" data-label="ناخودآگاه: روان‌پویشی" onclick="openNode('psycho')"></div>
+    <div class="spot" id="spot-child"  data-label="قلب درخت: کودک درون"  onclick="openNode('child')"></div>
+    <div class="spot" id="spot-cbt"    data-label="تنه و شاخه: CBT"      onclick="openNode('cbt')"></div>
+    <div class="spot" id="spot-act"    data-label="میوه‌ها: ارزش‌های ACT" onclick="openNode('act')"></div>
 
-    <div id="card" onclick="event.stopPropagation()">
+    <div id="card">
         <div class="card-header">
             <span id="card-title" class="card-title">عنوان</span>
             <button class="close-btn" onclick="closeCard()">&times;</button>
@@ -481,24 +433,7 @@
     let completedNodes = new Set();
     let selectedKey = null;
 
-    try {
-        clientAnswers = JSON.parse(localStorage.getItem('psy_tree_answers')) || {};
-        completedNodes = new Set(JSON.parse(localStorage.getItem('psy_tree_completed')) || []);
-    } catch(e) {
-        clientAnswers = {};
-        completedNodes = new Set();
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        completedNodes.forEach(key => {
-            const el = document.getElementById(`spot-${key}`);
-            if (el) el.classList.add('completed');
-        });
-        updateProgress();
-    });
-
-    function openNode(key, event) {
-        if (event) event.stopPropagation();
+    function openNode(key) {
         selectedKey = key;
         const node = clinicalData[key];
         document.getElementById('card-title').innerText = node.title;
@@ -510,13 +445,6 @@
 
     function closeCard() {
         document.getElementById('card').style.display = 'none';
-        selectedKey = null;
-    }
-
-    function handleStageClick(event) {
-        if (document.getElementById('card').style.display === 'block') {
-            closeCard();
-        }
     }
 
     function changeTab(tabName) {
@@ -534,26 +462,13 @@
 
     function finishNode() {
         const text = document.getElementById('client-response').value.trim();
-        
-        // ثبت یا بروزرسانی پاسخ
         if (text) {
             clientAnswers[selectedKey] = text;
-        } else {
-            delete clientAnswers[selectedKey];
         }
 
         completedNodes.add(selectedKey);
-        const spotEl = document.getElementById(`spot-${selectedKey}`);
-        if (spotEl) spotEl.classList.add('completed');
+        document.getElementById(`spot-${selectedKey}`).classList.add('completed');
         
-        // ذخیره‌سازی پایدار
-        try {
-            localStorage.setItem('psy_tree_answers', JSON.stringify(clientAnswers));
-            localStorage.setItem('psy_tree_completed', JSON.stringify(Array.from(completedNodes)));
-        } catch(e) {
-            console.error("Storage save failed", e);
-        }
-
         updateProgress();
         closeCard();
     }
@@ -566,11 +481,8 @@
         document.getElementById('progress-fill').style.width = percent + '%';
         document.getElementById('progress-text').innerText = percent + '%';
 
-        const reportBtn = document.getElementById('btn-show-report');
         if (count >= 1) {
-            reportBtn.style.display = 'block';
-        } else {
-            reportBtn.style.display = 'none';
+            document.getElementById('btn-show-report').style.display = 'block';
         }
     }
 
@@ -597,23 +509,6 @@
 
     function closeReport() {
         document.getElementById('report-modal').style.display = 'none';
-    }
-
-    function resetAllData() {
-        if (confirm("آیا مطمئن هستید که می‌خواهید تمام پاسخ‌ها و پیشرفت را پاک کنید؟")) {
-            try {
-                localStorage.removeItem('psy_tree_answers');
-                localStorage.removeItem('psy_tree_completed');
-            } catch(e){}
-            
-            clientAnswers = {};
-            completedNodes.clear();
-
-            document.querySelectorAll('.spot').forEach(s => s.classList.remove('completed'));
-            updateProgress();
-            closeCard();
-            closeReport();
-        }
     }
 </script>
 
