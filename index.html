@@ -539,6 +539,124 @@
             border: 2px solid rgba(45, 212, 191, 0.7);
             box-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
         }
+        /* اصلاح دکمه بستن مودال پروفایل */
+        .profile-card .close-btn {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #94a3b8;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .profile-card .close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        /* بخش شبکه‌های اجتماعی */
+        .social-section-title {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin: 1.2rem 0 0.6rem;
+            text-align: center;
+        }
+        .social-buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 0.5rem;
+        }
+        .social-icon-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #f1f5f9;
+        }
+        .social-icon-btn:hover {
+            transform: translateY(-3px);
+        }
+        .social-icon-btn.instagram:hover {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            box-shadow: 0 6px 20px rgba(214, 36, 159, 0.4);
+            border-color: transparent;
+        }
+        .social-icon-btn.telegram:hover {
+            background: #229ED9;
+            box-shadow: 0 6px 20px rgba(34, 158, 217, 0.4);
+            border-color: transparent;
+        }
+        .social-icon-btn.whatsapp:hover {
+            background: #25D366;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            border-color: transparent;
+        }
+
+        /* کادر پیش‌نمایش آیدی و ارجاع */
+        .social-detail-box {
+            display: none;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(45, 212, 191, 0.4);
+            border-radius: 12px;
+            padding: 0.85rem;
+            margin-top: 0.8rem;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            animation: fadeInModal 0.25s ease-out forwards;
+        }
+        .social-detail-box.show {
+            display: block;
+        }
+        .social-detail-title {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.3rem;
+        }
+        .social-detail-id {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #38bdf8;
+            direction: ltr;
+            letter-spacing: 0.8px;
+            margin-bottom: 0.75rem;
+            font-family: monospace, sans-serif;
+        }
+        .social-action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 0.55rem;
+            border-radius: 8px;
+            background: rgba(45, 212, 191, 0.15);
+            border: 1px solid rgba(45, 212, 191, 0.4);
+            color: #5eead4;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .social-action-btn:hover {
+            background: #0d9488;
+            color: #ffffff;
+        }
 
     </style>
 </head>
@@ -888,27 +1006,91 @@
                 <span>📞</span>
                 <span>تماس / هماهنگی نوبت: ۰۹۳۰۳۳۳۷۴۹۳</span>
             </a>
+           
+                        <!-- بخش شبکه‌های اجتماعی -->
+            <div class="social-section-title">پیام‌رسان‌ها و شبکه‌های اجتماعی:</div>
+            <div class="social-buttons-wrapper">
+                <button class="social-icon-btn instagram" id="btnInsta" title="اینستاگرام"> ...svg اینستاگرام... </button>
+                <button class="social-icon-btn telegram" id="btnTg" title="تلگرام"> ...svg تلگرام... </button>
+                <button class="social-icon-btn whatsapp" id="btnWa" title="واتساپ"> ...svg واتساپ... </button>
+            </div>
+            <div id="socialDisplayBox" class="social-detail-box">
+                <div id="socialPlatformTitle" class="social-detail-title">شناسه پلتفرم:</div>
+                <div id="socialPlatformId" class="social-detail-id">@963psy</div>
+                <a id="socialDirectLink" href="#" target="_blank" class="social-action-btn">
+                    <span>ورود به برنامه / گفتگو</span> ↗
+                </a>
+            </div>
+
         </div>
-    </div>
+    </div>  
     <script>
         // کنترل باز و بسته شدن مودال درمانگر
         const profileBtn = document.getElementById('profileBtn');
         const profileModal = document.getElementById('profileModal');
         const profileCloseBtn = document.getElementById('profileCloseBtn');
 
+        function resetSocialDisplay() {
+            document.getElementById('socialDisplayBox')?.classList.remove('show');
+        }
+
         if (profileBtn && profileModal && profileCloseBtn) {
             profileBtn.addEventListener('click', () => {
                 profileModal.classList.add('active');
             });
+
             profileCloseBtn.addEventListener('click', () => {
                 profileModal.classList.remove('active');
+                resetSocialDisplay();
             });
+
             profileModal.addEventListener('click', (e) => {
                 if (e.target === profileModal) {
                     profileModal.classList.remove('active');
+                    resetSocialDisplay();
                 }
             });
         }
+
+        const therapistSocials = {
+            instagram: {
+                title: 'صفحه رسمی اینستاگرام:',
+                id: '@963psy',
+                url: 'https://instagram.com/963psy'
+            },
+            telegram: {
+                title: 'شناسه تلگرام:',
+                id: '@Therapy963',
+                url: 'https://t.me/Therapy963'
+            },
+            whatsapp: {
+                title: 'شناسه واتساپ / شماره تماس:',
+                id: '@963psy (09303337493)',
+                url: 'https://wa.me/989303337493'
+            }
+        };
+
+        function activateSocial(platform) {
+            const data = therapistSocials[platform];
+            if (!data) return;
+
+            document.getElementById('socialPlatformTitle').textContent = data.title;
+            document.getElementById('socialPlatformId').textContent = data.id;
+            document.getElementById('socialDirectLink').href = data.url;
+            document.getElementById('socialDisplayBox')?.classList.add('show');
+        }
+
+        document.getElementById('btnInsta')?.addEventListener('click', () => {
+            activateSocial('instagram');
+        });
+
+        document.getElementById('btnTg')?.addEventListener('click', () => {
+            activateSocial('telegram');
+        });
+
+        document.getElementById('btnWa')?.addEventListener('click', () => {
+            activateSocial('whatsapp');
+        });
     </script>
 
 </body>
