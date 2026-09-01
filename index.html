@@ -996,6 +996,109 @@
             transform: rotate(180deg);
             color: #38bdf8;
             border-color: #38bdf8;
+
+            
+---
+
+#### گام ۳: اسکریپت جاوااسکریپت کامل برای ابزارها و فیلترها (قبل از `</body>`)
+```javascript
+// ============================================
+// FIX FILTER CONDITION FOR MULTI-CATEGORY
+// ============================================
+document.querySelectorAll('.filter-tag').forEach(tag => {
+tag.addEventListener('click', () => {
+document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+tag.classList.add('active');
+const filter = tag.dataset.filter;
+
+document.querySelectorAll('.hotspot').forEach(spot => {
+const cat = spot.dataset.category || '';
+if (filter === 'all' || cat.includes(filter)) {
+spot.classList.remove('dimmed');
+} else {
+spot.classList.add('dimmed');
+}
+});
+});
+});
+
+// ============================================
+// MODAL CONTROLLERS (CBT, GLOSSARY, INTAKE)
+// ============================================
+const setupModal = (btnId, modalId, closeId) => {
+const btn = document.getElementById(btnId);
+const modal = document.getElementById(modalId);
+const close = document.getElementById(closeId);
+if (btn && modal) btn.addEventListener('click', () => modal.style.display = 'flex');
+if (close && modal) close.addEventListener('click', () => modal.style.display = 'none');
+if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+};
+
+setupModal('openCbtBtn', 'cbtModal', 'closeCbtModal');
+setupModal('openGlossaryBtn', 'glossaryModal', 'closeGlossaryModal');
+setupModal('openIntakeBtn', 'intakeModal', 'closeIntakeModal');
+
+// CBT Copy
+const copyCbtBtn = document.getElementById('copyCbtResult');
+if (copyCbtBtn) {
+copyCbtBtn.addEventListener('click', () => {
+const sit = document.getElementById('cbtSituation').value;
+const tht = document.getElementById('cbtThought').value;
+const emo = document.getElementById('cbtEmotion').value;
+const dis = document.getElementById('cbtDistortion').value;
+const res = document.getElementById('cbtResponse').value;
+
+const output = `📝 فرم ثبت افکار (CBT)\n───────────────\n📍 موقعیت: ${sit}\n💭 فکر خودآیند: ${tht}\n💔 احساس و شدت: ${emo}\n🔍 خطای شناختی: ${dis}\n💡 پاسخ انطباقی: ${res}`;
+navigator.clipboard.writeText(output).then(() => {
+copyCbtBtn.textContent = '✅ کپی شد!';
+setTimeout(() => copyCbtBtn.textContent = '📋 کپی ساختاریافته برای جلسه', 2000);
+});
+});
+}
+
+// Glossary Engine
+const glossaryData = [
+{ term: 'شبکه حالت پیش‌فرض (DMN)', desc: 'شبکه‌ای در مغز که هنگام نشخوار فکری، خودارجاعی و عدم تمرکز بر دنیای بیرون بیش‌فعال می‌شود.' },
+{ term: 'گسلش شناختی (Defusion)', desc: 'مهارت فاصله‌گرفتن از افکار و مشاهده آن‌ها صرفاً به عنوان کلمات و تصاویر ذهنی، نه حقایق مطلق.' },
+{ term: 'مثلث تعارض (Triangle of Conflict)', desc: 'مدل ISTDP شامل احساسات پنهان (احساس واقعی)، اضطراب و مکانیزم‌های دفاعی.' },
+{ term: 'طرح‌واره‌های ناسازگار (EMS)', desc: 'الگوهای هیجانی و شناختی خودآسیب‌رسان که در دوران کودکی شکل گرفته و در طول زندگی تکرار می‌شوند.' },
+{ term: 'روابط موضوعی (Object Relations)', desc: 'نظریه‌ای که به بررسی چگونگی درون‌فکنی روابط اولیه با مراقبان و بازتولید آن در روابط بزرگسالی می‌پردازد.' }
+];
+
+function renderGlossary(filterText = '') {
+const container = document.getElementById('glossaryListContainer');
+if (!container) return;
+container.innerHTML = '';
+const filtered = glossaryData.filter(item => item.term.includes(filterText) || item.desc.includes(filterText));
+filtered.forEach(item => {
+const div = document.createElement('div');
+div.className = 'glossary-item';
+div.innerHTML = `<h4 style="color:#38bdf8;margin-bottom:4px;">${item.term}</h4><p style="font-size:0.85rem;color:#cbd5e1;line-height:1.5;">${item.desc}</p>`;
+container.appendChild(div);
+});
+}
+renderGlossary();
+
+const glossarySearch = document.getElementById('glossarySearchInput');
+if (glossarySearch) {
+glossarySearch.addEventListener('input', (e) => renderGlossary(e.target.value));
+}
+
+// Intake WhatsApp Action
+const sendWaBtn = document.getElementById('sendToWhatsAppBtn');
+if (sendWaBtn) {
+sendWaBtn.addEventListener('click', () => {
+const name = document.getElementById('intakeName').value || 'درمانجو';
+const topic = document.getElementById('intakeTopic').value;
+const format = document.getElementById('intakeFormat').value;
+const notes = document.getElementById('intakeNotes').value;
+
+const message = `سلام جناب محمدزاده،\nدرخواست وقت ارزیابی و مشاوره دارم:\n\n👤 نام: ${name}\n🎯 دغدغه: ${topic}\n💻 فرمت جلسه: ${format}\n📝 توضیحات: ${notes || 'ندارد'}`;
+const url = `https://wa.me/989303337493?text=${encodeURIComponent(message)}`;
+window.open(url, '_blank');
+});
+}
+
         }
         /* ============================================
            STEP 3: CLINICAL TOOLS (CBT, GLOSSARY, INTAKE)
