@@ -663,7 +663,319 @@
             color: #ffffff;
         }
 
-    </style>
+            /* ===== حالت ملایم روز (Day Theme) ===== */
+        :root {
+            --day-bg: #f8fafc;
+            --day-text: #1e293b;
+            --day-card: rgba(255, 255, 255, 0.85);
+            --day-border: rgba(30, 41, 59, 0.12);
+        }
+        body.light-mode {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        body.light-mode .card,
+        body.light-mode .modal-content,
+        body.light-mode .tool-content-panel {
+            background: var(--day-card);
+            border-color: var(--day-border);
+            color: var(--day-text);
+        }
+        body.light-mode .hotspot-tooltip {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e293b;
+            border: 1px solid var(--day-border);
+        }
+        body.light-mode .filter-tags,
+        body.light-mode .tags-cloud,
+        body.light-mode footer,
+        body.light-mode .tools-navbar {
+            background: rgba(241, 245, 249, 0.9);
+            color: #1e293b;
+        }
+        body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+            color: #0f172a;
+        }
+
+        /* ===== جریان بالینی (Healing Cycle) ===== */
+        .healing-path-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .healing-path-overlay.active {
+            opacity: 1;
+        }
+        #cycleFlowPath {
+            fill: none;
+            stroke: url(#treeFlowGrad);
+            stroke-width: 1.2;
+            stroke-dasharray: 6 4;
+            animation: flowDash 2s linear infinite;
+        }
+        @keyframes flowDash {
+            to { stroke-dashoffset: -20; }
+        }
+        .cycle-indicator-bar {
+            text-align: center;
+            margin: 20px auto 0;
+        }
+        .action-pill-btn {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(192, 132, 252, 0.15));
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #e2e8f0;
+            padding: 10px 22px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .action-pill-btn:hover {
+            background: rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
+        }
+        .pulse-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #38bdf8;
+            margin-inline-end: 8px;
+            animation: pulseDot 1.4s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.6); opacity: 0.5; }
+        }
+
+        /* ===== بنر بینش (Insight Banner) ===== */
+        .insight-banner {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            max-width: 960px;
+            margin: 30px auto 10px;
+            padding: 22px 28px;
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.12), rgba(56, 189, 248, 0.10));
+            border: 1px solid rgba(192, 132, 252, 0.35);
+            border-radius: 18px;
+        }
+        .insight-icon {
+            font-size: 2.2rem;
+            flex-shrink: 0;
+        }
+        .insight-content {
+            flex: 1;
+        }
+        .insight-content blockquote {
+            margin: 0 0 6px;
+            font-size: 1.08rem;
+            line-height: 1.9;
+            color: #e2e8f0;
+        }
+        .insight-content cite {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            font-style: normal;
+        }
+        .next-quote-btn {
+            background: transparent;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            color: #cbd5e1;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .next-quote-btn:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
+            transform: rotate(45deg);
+        }
+        body.light-mode .insight-content blockquote { color: #1e293b; }
+
+        /* ===== شبکه ابزارهای بالینی ===== */
+        .clinical-tools-grid {
+            max-width: 960px;
+            margin: 24px auto 40px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+        }
+        .tools-navbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+        .tool-tab-btn {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            color: #cbd5e1;
+            padding: 9px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.92rem;
+            transition: all 0.3s ease;
+        }
+        .tool-tab-btn:hover { border-color: #38bdf8; }
+        .tool-tab-btn.active {
+            background: linear-gradient(135deg, #38bdf8, #c084fc);
+            color: #0f172a;
+            border-color: transparent;
+            font-weight: bold;
+        }
+        .theme-toggle-btn {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            color: #fcd34d;
+            padding: 9px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.92rem;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle-btn:hover { background: rgba(245, 158, 11, 0.3); }
+        .tool-content-panel {
+            display: none;
+        }
+        .tool-content-panel.active {
+            display: block;
+            animation: fadeInTool 0.5s ease;
+        }
+        @keyframes fadeInTool {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tool-content-panel h3 {
+            text-align: center;
+            color: #38bdf8;
+            margin: 4px 0 16px;
+        }
+        .thought-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .thought-form-grid input,
+        .thought-form-grid select,
+        .appointment-form input,
+        .appointment-form select,
+        .appointment-form textarea,
+        .tool-search-box {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 10px;
+            color: #e2e8f0;
+            padding: 11px 14px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .thought-form-grid input:focus,
+        .appointment-form input:focus,
+        .appointment-form select:focus,
+        .appointment-form textarea:focus,
+        .tool-search-box:focus {
+            border-color: #38bdf8;
+        }
+        .btn-save-record, .btn-submit-triage {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #38bdf8, #a855f7);
+            border: none;
+            color: #0f172a;
+            font-weight: bold;
+            padding: 13px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-save-record:hover, .btn-submit-triage:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
+        }
+        .records-display-area {
+            margin-top: 16px;
+            display: grid;
+            gap: 10px;
+        }
+        .record-item-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-inline-start: 4px solid #38bdf8;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .record-item-card button {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            border-radius: 8px;
+            padding: 5px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            flex-shrink: 0;
+        }
+        .glossary-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+            margin-top: 14px;
+        }
+        .glossary-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 14px;
+            padding: 16px;
+        }
+        .glossary-card h4 {
+            margin: 0 0 8px;
+            color: #c084fc;
+            font-size: 1rem;
+        }
+        .glossary-card p {
+            margin: 0;
+            font-size: 0.87rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .appointment-form textarea {
+            margin-bottom: 12px;
+            resize: vertical;
+        }
+        @media (max-width: 640px) {
+            .thought-form-grid, .form-row { grid-template-columns: 1fr; }
+            .btn-save-record { grid-column: span 1; }
+            .insight-banner { flex-direction: column; text-align: center; }
+        }</style>
 </head>
 <body>
 
@@ -756,7 +1068,7 @@
             <div class="hotspot-center"></div>
             <div class="hotspot-tooltip">ماندالای ریشه‌ها و ناخودآگاه جمعی (Mindfulness & Roots)</div>
         </div>
-    </div>
+            </div>
 
     <!-- Modal Popup -->
     <div class="modal-overlay" id="modalOverlay">
@@ -785,11 +1097,105 @@
         </div>
     </div>
 
+
     <footer>
         نقشه ادراکی «درخت روان» | طراحی شده جهت مصورسازی یکپارچه رویکردهای درمانی و نوروساینس
     </footer>
 
-    <script>
+    <!-- هات‌اسپات هشتم: سبک دلبستگی و روابط با ابژه -->
+<div class="hotspot" style="top: 66%; left: 50%;" data-id="attachment_object" data-category="depth" data-theme="cyan">
+    <div class="hotspot-ring"></div>
+    <div class="hotspot-ring-2"></div>
+    <div class="hotspot-center"></div>
+    <div class="hotspot-tooltip">سبک دلبستگی و روابط با ابژه (Bowlby &amp; Klein)</div>
+</div>
+<svg class="healing-path-overlay" id="healingCycleSvg" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <defs>
+        <linearGradient id="treeFlowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+            <stop offset="50%" stop-color="#c084fc" stop-opacity="0.95" />
+            <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.9" />
+        </linearGradient>
+    </defs>
+    <path id="cycleFlowPath" class="flow-animated-line" d="M 23,18 Q 30,45 24,80 Q 50,95 76,80 Q 70,45 78,18 Q 50,30 50,50 Q 50,66 50,50 Z" />
+</svg>
+<div class="cycle-indicator-bar">
+    <button id="toggleFlowBtn" class="action-pill-btn" onclick="toggleHealingCycle()">
+        <span class="pulse-dot"></span> جریان بالینی: برگ‌ها ➔ ریشه‌ها ➔ اصلاح خود
+    </button>
+</div>
+
+<button class="tag-btn direct-point-btn" onclick="openModal('schema')">🎨 طرح‌واره‌درمانی</button>
+<button class="tag-btn direct-point-btn" onclick="openModal('mandala_root')">🌀 ماندالای ریشه‌ها</button>
+<button class="tag-btn direct-point-btn" onclick="openModal('attachment_object')">🔗 سبک دلبستگی و ابژه</button>
+
+<section class="insight-banner">
+    <div class="insight-icon">💡</div>
+    <div class="insight-content">
+        <blockquote id="quoteText">«تا زمانی که ناآگاه را آگاه نسازید، زندگی شما را هدایت خواهد کرد و شما آن را سرنوشت خواهید خواند.»</blockquote>
+        <cite id="quoteAuthor">— کارل گوستاو یونگ</cite>
+    </div>
+    <button class="next-quote-btn" onclick="nextPsychQuote()" title="بینش بعدی">↻</button>
+</section>
+<section class="clinical-tools-grid">
+    <div class="tools-navbar">
+        <button class="tool-tab-btn active" onclick="switchToolTab('thoughtRecord')">📝 جدول ثبت افکار (CBT)</button>
+        <button class="tool-tab-btn" onclick="switchToolTab('glossary')">📚 واژه‌نامه روان‌شناختی</button>
+        <button class="tool-tab-btn" onclick="switchToolTab('appointment')">📅 پیش‌ثبت‌نام و تریاژ نوبت</button>
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDayNightTheme()">☀️ حالت ملایم روز</button>
+    </div>
+    <div id="thoughtRecordTab" class="tool-content-panel active">
+        <h3>📝 جدول ثبت افکار (CBT)</h3>
+        <div class="thought-form-grid">
+            <input id="trSituation" placeholder="موقعیت / محرک چه بود؟">
+            <input id="trEmotion" placeholder="هیجان اصلی (مثلاً اضطراب)">
+            <input id="trThought" placeholder="فکر خودکار منفی">
+            <select id="trDistortion">
+                <option value="">انتخاب خطای شناختی</option>
+                <option>فاجعه‌سازی</option>
+                <option>ذهن‌خوانی</option>
+                <option>تفکر همه یا هیچ</option>
+                <option>شخصی‌سازی</option>
+                <option>فیلتر ذهنی منفی</option>
+            </select>
+            <input id="trRational" placeholder="بازتفسیر منطقی و متعادل">
+            <button class="btn-save-record" onclick="saveThoughtEntry()">💾 ثبت در جدول</button>
+        </div>
+        <div id="recordsDisplayArea" class="records-display-area"></div>
+    </div>
+    <div id="glossaryTab" class="tool-content-panel">
+        <h3>📚 واژه‌نامه روان‌شناختی</h3>
+        <input id="glossarySearch" class="tool-search-box" placeholder="جستجوی اصطلاح..." oninput="filterGlossary()">
+        <div id="glossaryContainer" class="glossary-items-grid"></div>
+    </div>
+    <div id="appointmentTab" class="tool-content-panel">
+        <h3>📅 پیش‌ثبت‌نام و تریاژ نوبت</h3>
+        <form class="appointment-form" onsubmit="handleAppointmentSubmit(event)">
+            <div class="form-row">
+                <input id="triageName" placeholder="نام و نام خانوادگی" required>
+                <input id="triagePhone" placeholder="شماره تماس" required>
+            </div>
+            <div class="form-row">
+                <select id="triageArea">
+                    <option value="">حوزه مشکل</option>
+                    <option>اضطراب و وسواس</option>
+                    <option>افسردگی و خلقی</option>
+                    <option>روابط و دلبستگی</option>
+                    <option>طرح‌واره‌ها و الگوهای تکراری</option>
+                </select>
+                <select id="triageApproach">
+                    <option value="">رویکرد مدنظر</option>
+                    <option>CBT</option>
+                    <option>ACT</option>
+                    <option>طرح‌واره‌درمانی</option>
+                    <option>درمان پویشی کوتاه‌مدت (ISTDP)</option>
+                </select>
+            </div>
+            <textarea id="triageNotes" rows="3" placeholder="توضیحات کوتاه (اختیاری)"></textarea>
+            <button type="submit" class="btn-submit-triage">📤 ارسال درخواست و ادامه در پیام‌رسان</button>
+        </form>
+    </div>
+</section><script>
         const clinicalData = {
             "inner_child": {
                 badge: "هسته مرکزی خود (Self Core)",
@@ -1115,6 +1521,133 @@
             activateSocial('whatsapp');
         });
     </script>
+<script>
+        // ===== رکورد دلبستگی و روابط با ابژه (پیوست) =====
+        clinicalData.attachment_object = { badge: "روابط نخستین و ساختار درون‌روانی", themeBg: "rgba(6, 182, 212, 0.15)", themeColor: "#06b6d4", title: "سبک‌های دلبستگی و روابط با ابژه", latin: "Attachment Theory & Object Relations (John Bowlby, Melanie Klein & Winnicott)", location: "پیوندگاه تنه و ریشه‌ها (پایگاه امن تحولی و تکیه‌گاه شکل‌گیری خود)", description: "روابط اولیه و الگوی پاسخگویی والد در سال‌های نخستین، ماتریس ادراک فرد از خود و دیگران (IWM) را بنا می‌نهد. بازنمایی‌های درونی‌شده (ابژه‌های خوب/بد)، دونیم‌سازی و ظرفیت تکیه‌گاه امن، زیربنای اعتماد بنیادین، تنظیم هیجان و سبک‌های صمیمیت فرد در بزرگسالی را جهت‌دهی می‌کنند.", concepts: ["دلبستگی ایمن / اجتنابی / اضطرابی / آشفته (Ainsworth & Bowlby)", "پایگاه امن و پناهگاه آسایش (Secure Base & Safe Haven)", "الگوهای فعال‌ساز درونی (Internal Working Models - IWM)", "مادر به‌اندازه کافی خوب و فضای بینابینی (Donald Winnicott)", "مکانیزم‌های دونیم‌سازی و همانندسازی فرافکنانه (Melanie Klein)", "تجربه هیجانی اصلاحی و موقعیت افسرده‌وار (Depressive Position)"] };
+
+        // ===== جریان بالینی (چرخه شفا) =====
+        function toggleHealingCycle() {
+            const svg = document.getElementById('healingCycleSvg');
+            const btn = document.getElementById('toggleFlowBtn');
+            const isActive = svg.classList.toggle('active');
+            btn.classList.toggle('active', isActive);
+        }
+
+        // ===== حالت ملایم روز / شب =====
+        function toggleDayNightTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('psych_theme', isLight ? 'light' : 'dark');
+            const btn = document.getElementById('themeToggleBtn');
+            if (btn) btn.textContent = isLight ? '🌙 حالت شب درخت' : '☀️ حالت ملایم روز';
+        }
+        (function applySavedTheme() {
+            if (localStorage.getItem('psych_theme') === 'light') {
+                document.body.classList.add('light-mode');
+                const btn = document.getElementById('themeToggleBtn');
+                if (btn) btn.textContent = '🌙 حالت شب درخت';
+            }
+        })();
+
+        // ===== بنر بینش: نقل‌قول‌های روان‌شناختی =====
+        const psychQuotes = [
+            { text: "«تا زمانی که ناآگاه را آگاه نسازید، زندگی شما را هدایت خواهد کرد و شما آن را سرنوشت خواهید خواند.»", author: "— کارل گوستاو یونگ" },
+            { text: "«مردی که در تاریکی دستی را جست‌وجو می‌کند، تفاوت مشت و انگشتان را حس نمی‌کند.»", author: "— آرون بک" },
+            { text: "«همه‌ی ما در سال‌های نخستین زندگی، درباره‌ی خود و دیگران تصمیم‌هایی می‌گیریم که در بزرگسالی آن‌ها را «حقیقت» می‌پنداریم.»", author: "— جان بالبی" },
+            { text: "«بپذیر که در این لحظه، همان کسی هستی که می‌توانی باشی؛ آنگاه مسیر تغییر خودش باز می‌شود.»", author: "— استیون هیز" },
+            { text: "«بازی‌های زندگی را در کودکی آغاز می‌کنیم؛ خودآگاهی، تنها راه پایان بخشیدن به آن‌هاست.»", author: "— اریک برن" }
+        ];
+        let quoteIndex = 0;
+        function nextPsychQuote() {
+            quoteIndex = (quoteIndex + 1) % psychQuotes.length;
+            document.getElementById('quoteText').textContent = psychQuotes[quoteIndex].text;
+            document.getElementById('quoteAuthor').textContent = psychQuotes[quoteIndex].author;
+        }
+
+        // ===== تب‌های ابزارهای بالینی =====
+        function switchToolTab(tabKey) {
+            document.querySelectorAll('.tool-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tool-content-panel').forEach(p => p.classList.remove('active'));
+            const btns = document.querySelectorAll('.tools-navbar .tool-tab-btn');
+            btns.forEach(b => { if (b.getAttribute('onclick').includes("'" + tabKey + "'")) b.classList.add('active'); });
+            const panel = document.getElementById(tabKey + 'Tab');
+            if (panel) panel.classList.add('active');
+        }
+
+        // ===== جدول ثبت افکار (CBT) =====
+        let thoughtRecords = JSON.parse(localStorage.getItem('user_thought_records') || '[]');
+        function saveThoughtEntry() {
+            const situation = document.getElementById('trSituation').value.trim();
+            const emotion = document.getElementById('trEmotion').value.trim();
+            const thought = document.getElementById('trThought').value.trim();
+            const distortion = document.getElementById('trDistortion').value;
+            const rational = document.getElementById('trRational').value.trim();
+            if (!situation && !thought) { alert('حداقل «موقعیت» یا «فکر خودکار» را وارد کنید.'); return; }
+            thoughtRecords.push({ situation, emotion, thought, distortion, rational, date: new Date().toLocaleDateString('fa-IR') });
+            localStorage.setItem('user_thought_records', JSON.stringify(thoughtRecords));
+            ['trSituation', 'trEmotion', 'trThought', 'trDistortion', 'trRational'].forEach(id => document.getElementById(id).value = '');
+            renderThoughtRecords();
+        }
+        function renderThoughtRecords() {
+            const area = document.getElementById('recordsDisplayArea');
+            if (!area) return;
+            if (!thoughtRecords.length) {
+                area.innerHTML = '<p style="text-align:center;color:#94a3b8;">هنوز رکوردی ثبت نشده است. اولین افکار خود را ثبت کنید 🌱</p>';
+                return;
+            }
+            area.innerHTML = thoughtRecords.map((r, idx) => `
+                <div class="record-item-card">
+                    <div>
+                        <strong>📅 ${r.date}</strong> | موقعیت: ${r.situation || '—'} | هیجان: ${r.emotion || '—'}<br>
+                        🧠 فکر خودکار: ${r.thought} ${r.distortion ? `(خطا: ${r.distortion})` : ''}<br>
+                        ✅ بازتفسیر متعادل: ${r.rational || '—'}
+                    </div>
+                    <button onclick="deleteThought(${idx})">🗑 حذف</button>
+                </div>`).join('');
+        }
+        function deleteThought(idx) {
+            thoughtRecords.splice(idx, 1);
+            localStorage.setItem('user_thought_records', JSON.stringify(thoughtRecords));
+            renderThoughtRecords();
+        }
+        renderThoughtRecords();
+
+        // ===== واژه‌نامه روان‌شناختی =====
+        const glossaryDB = [
+            { term: "کودک درون", def: "بخشی از روان که تجربه‌ها و نیازهای هیجانی دوران کودکی را حمل می‌کند؛ بازدید و آرام‌سازی آن هسته‌ی بسیاری از درمان‌های تجربی است." },
+            { term: "بازسازی شناختی", def: "فن محوری CBT برای شناسایی افکار خودکار ناکارآمد و جایگزینی آن‌ها با تفسیرهای منطقی و واقع‌بینانه." },
+            { term: "گسلش شناختی", def: "فرآیند ایجاد فاصله از افکار به‌جای جنگیدن با آن‌ها؛ مغز هسته‌ی درمان پذیرش و تعهد (ACT)." },
+            { term: "تجربه هیجانی اصلاحی", def: "مواجهه‌ی امن با الگوهای قدیمی رابطه‌ای در فضای درمانی، به‌گونه‌ای که نتیجه‌ای متفاوت با گذشته تجربه شود." },
+            { term: "طرح‌واره‌های ناسازگار اولیه (EMS)", def: "الگوهای پایدار حافظه، هیجان و بدن که در کودکی شکل می‌گیرند و در بزرگسالی تکرار می‌شوند؛ محور طرح‌واره‌درمانی یانگ." },
+            { term: "شبکه پیش‌فرض مغزی (DMN)", def: "مجموعه‌ای از نواحی مغزی که در حالت استراحت فعال‌اند و با نشخوار فکری، خودپردازی و آینده‌نگری مرتبط‌اند." },
+            { term: "دونیم‌سازی", def: "مکانیزم دفاعی در نظریه کلاین؛ تقسیم جهان درونی به «همه خوب» یا «همه بد» برای حفاظت از ابژه‌ی خوب در برابر خشم." },
+            { term: "فضای بینابینی", def: "مفهوم وینیکات درباره‌ی ناحیه‌ی تجربه‌ی میانی میان واقعیت درونی و بیرونی؛ جایگاه بازی، خلاقیت و فرهنگ." }
+        ];
+        function renderGlossary(list) {
+            const container = document.getElementById('glossaryContainer');
+            if (!container) return;
+            container.innerHTML = list.length
+                ? list.map(g => `<div class="glossary-card"><h4>${g.term}</h4><p>${g.def}</p></div>`).join('')
+                : '<p style="grid-column:1/-1;text-align:center;color:#94a3b8;">اصطلاحی یافت نشد.</p>';
+        }
+        function filterGlossary() {
+            const q = document.getElementById('glossarySearch').value.trim();
+            renderGlossary(glossaryDB.filter(g => g.term.includes(q) || g.def.includes(q)));
+        }
+        renderGlossary(glossaryDB);
+
+        // ===== پیش‌ثبت‌نام و تریاژ نوبت =====
+        function handleAppointmentSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('triageName').value.trim();
+            const phone = document.getElementById('triagePhone').value.trim();
+            const area = document.getElementById('triageArea').value || '—';
+            const approach = document.getElementById('triageApproach').value || '—';
+            const notes = document.getElementById('triageNotes').value.trim() || '—';
+            const msg = `درخواست پیش‌ثبت‌نام (درخت روان)%0A👤 نام: ${encodeURIComponent(name)}%0A📞 تماس: ${encodeURIComponent(phone)}%0A🧩 حوزه مشکل: ${encodeURIComponent(area)}%0A🧭 رویکرد: ${encodeURIComponent(approach)}%0A📝 توضیحات: ${encodeURIComponent(notes)}`;
+            window.open('https://wa.me/989120000000?text=' + msg, '_blank');
+        }
+</script>
 </body>
 </html>
 
